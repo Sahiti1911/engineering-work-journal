@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Engineering Work Journal</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <h1>Engineering Work Journal</h1>
+
+  <form id="entry-form">
+    <div>
+      <label for="title">Title</label>
+      <input id="title" name="title" required />
+    </div>
+    <div>
+      <label for="work_date">Date</label>
+      <input id="work_date" name="work_date" type="date" required />
+    </div>
+    <div>
+      <label for="tags">Tags (comma-separated)</label>
+      <input id="tags" name="tags" placeholder="e.g. backend, incident" />
+    </div>
+    <div>
+      <label for="body">Description</label>
+      <textarea id="body" name="body" rows="4" required></textarea>
+    </div>
+    <button type="submit">Add entry</button>
+  </form>
+
+  <h2>Entries</h2>
+  <ul id="entry-list"></ul>
+
+  <script src="app.js"></script>
+</body>
+</html>
