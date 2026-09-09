@@ -2,3 +2,7 @@ journal.db
 __pycache__/
 *.pyc
 .venv/
+
+# frontend build tooling / generated output
+frontend/node_modules/
+backend/app/static/
