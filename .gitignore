@@ -2,7 +2,12 @@ journal.db
 __pycache__/
 *.pyc
 .venv/
+backend/.env
+.ruff_cache/
+.pytest_cache/
 
-# frontend build tooling / generated output
+# frontend build tooling / generated output (frontend/ has its own .gitignore too)
 frontend/node_modules/
-backend/app/static/
+frontend/dist/
+backend/app/static/*
+!backend/app/static/.gitkeep
