@@ -5,9 +5,14 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
+from app.dashboard import router as dashboard_router
+from app.entries import router as entries_router
+
 load_dotenv()
 
 app = FastAPI(title="Engineering Work Journal")
+app.include_router(entries_router)
+app.include_router(dashboard_router)
 
 cors_origins = os.getenv("BACKEND_CORS_ORIGINS", "http://localhost:5173").split(",")
 app.add_middleware(

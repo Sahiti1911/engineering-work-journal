@@ -14,19 +14,22 @@
 
 ## Current Milestone
 
-Phase 1 (Foundation) is substantially complete: backend (FastAPI + uv) and frontend (Vue 3 + TypeScript + Vite) scaffolds, linting/formatting/testing wired up on both sides, a working health-check endpoint. What Phase 1 does **not** yet include — and what Phase 2 starts with — is the actual database and work-entry API.
+Phase 1 (Foundation) is complete: backend (FastAPI + uv) and frontend (Vue 3 + TypeScript + Vite) scaffolds, linting/formatting/testing wired up on both sides, a working health-check endpoint.
 
-**Current milestone: start of Phase 2 — first slice is the `work_entries` schema plus Create + View.**
+Phase 2's backend is now complete: `work_entries` schema, full CRUD including view-one (`POST`/`GET`/`GET /{id}`/`PUT`/`DELETE /api/entries`), search + filter (`?q=`/`?project=`/`?category=`/`?status=`/`?date_from=`/`?date_to=`), and the dashboard (`GET /api/dashboard/summary`, by project/category/month) — including the date-range "quarterly view" (the same `?date_from=`/`?date_to=` scoping applied to the dashboard).
+
+**Current milestone: Phase 2 backend requirements are done; the Vue frontend that consumes these endpoints has not been started — that's the only thing left before Phase 2 as a whole is complete.**
 
 ## Completed Work
 
 - Backend foundation: FastAPI app, `uv`-managed dependencies, `ruff` lint/format, `pytest`/`httpx` testing, `GET /api/health`.
 - Frontend foundation: Vue 3 + TypeScript + Vite scaffold, `eslint`/`prettier`, `vitest`/`@vue/test-utils`, default demo content removed.
 - Documentation foundation: this doc set (product-vision, requirements, architecture, database, api, ai, roadmap, development, decisions), `CLAUDE.md` guardrails, `SESSION_LOG.md`.
+- Phase 2 backend (complete): `work_entries` schema (`backend/app/db.py`); Create/View-one/View-all/Edit/Delete (`backend/app/entries.py`); search + filter on `GET /api/entries`; dashboard counts by project/category/month with date-range scoping (`backend/app/dashboard.py`). 42 backend tests passing.
 
 ## In-Progress Work
 
-None yet within Phase 2 — the schema and API design are documented ([database.md](database.md), [api.md](api.md)) but not implemented.
+None currently in progress. Remaining before Phase 2 as a whole is done: the Vue frontend to actually use these endpoints (forms/lists/dashboard views) — see [requirements.md](requirements.md). No backend gaps remain.
 
 ## Next Task
 

@@ -17,15 +17,31 @@
 | GET | `/api/entries/{id}` | view one entry |
 | PUT | `/api/entries/{id}` | edit an entry |
 | DELETE | `/api/entries/{id}` | delete an entry |
-| GET | `/api/dashboard/summary` | counts by project, by category, by month — powers the dashboard |
+| GET | `/api/dashboard/summary` | counts by project, by category, by month — powers the dashboard; supports `?date_from=`/`?date_to=` to scope it to a date range (the Phase 2 "quarterly view") |
 | GET | `/api/quarterly-summary?year=&quarter=` | Phase 3: structured quarterly summary (see requirements.md) |
 
-Not yet implemented — planned per [roadmap.md](roadmap.md) phase order.
+Implemented so far: `POST /api/entries`, `GET /api/entries` (including `q`/`project`/`category`/`status`/`date_from`/`date_to`, combined with AND), `GET /api/entries/{id}`, `PUT /api/entries/{id}`, `DELETE /api/entries/{id}`, `GET /api/dashboard/summary` (including `date_from`/`date_to`). This completes the Phase 2 backend. Not yet implemented: the quarterly-summary endpoint (Phase 3) and the Vue frontend — planned per [roadmap.md](roadmap.md) phase order.
+
+`GET /api/dashboard/summary` response shape (not otherwise specified in requirements.md, so documenting the choice here): three arrays of small named-field objects, one count per distinct value —
+
+```json
+{
+  "by_project": [{"project": "Backend", "count": 1}, {"project": "Frontend", "count": 2}],
+  "by_category": [{"category": "Bug Fix", "count": 2}, {"category": "Feature", "count": 1}],
+  "by_month": [{"month": "2026-01", "count": 2}, {"month": "2026-02", "count": 1}]
+}
+```
+
+Each array is sorted by its key (project/category/month) for deterministic output — not a user-facing sort feature, just internal ordering. An empty database (or a date range matching no entries) returns all three arrays empty.
+
+`date_from`/`date_to` (both optional, same `date` type/validation as `GET /api/entries`) narrow all three breakdowns to the same inclusive date range: `date_from` only → on/after that date; `date_to` only → on/before that date; both → inclusive range; neither → all-time (unchanged default). This is the Phase 2 "quarterly view" — a date-scoped read of the existing dashboard, not the Phase 3 structured quarterly summary.
 
 ## Request/Response Expectations
 
 - Request and response bodies are JSON; `Content-Type: application/json`.
 - A created/updated entry is returned in full (including `id`, `created_at`, `updated_at`) so the frontend doesn't need a follow-up GET.
+- `PUT` is a full replacement (all fields required, same shape as the create request) — not a partial update.
+- `DELETE` returns `204 No Content` with an empty body on success.
 - `category` and `status` in requests are validated against the fixed sets in [requirements.md](requirements.md) — same values as the DB `CHECK` constraints in [database.md](database.md).
 
 ## Error Handling
