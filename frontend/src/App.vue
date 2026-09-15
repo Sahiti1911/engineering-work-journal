@@ -1,8 +1,21 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useTemplateRef } from 'vue'
+import DashboardView from './components/DashboardView.vue'
+import EntryForm from './components/EntryForm.vue'
+import EntryList from './components/EntryList.vue'
+
+const entryList = useTemplateRef('entryList')
+
+function handleCreated() {
+  entryList.value?.refresh()
+}
+</script>
 
 <template>
   <main>
     <h1>Engineering Work Journal</h1>
-    <p>Frontend foundation is set up. Work-entry features come next.</p>
+    <DashboardView />
+    <EntryForm @created="handleCreated" />
+    <EntryList ref="entryList" />
   </main>
 </template>
